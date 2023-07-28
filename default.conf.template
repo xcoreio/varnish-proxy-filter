@@ -1,0 +1,19 @@
+server {
+    listen       ${NGINX_CORE_PORT};
+    listen  [::]:${NGINX_CORE_PORT};
+    server_name  localhost;
+
+    location / {
+        sub_filter          ${NGINX_CORE_PROXY} ${NGINX_CORE_FILTER};
+        sub_filter_types    ${NGINX_CORE_FILTER_TYPES};
+        sub_filter_once     off;
+
+        proxy_pass          https://${NGINX_CORE_PROXY};
+        proxy_set_header    Accept-Encoding "";
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
