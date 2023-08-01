@@ -1,14 +1,14 @@
 server {
-    listen       ${NGINX_CORE_PORT};
-    listen  [::]:${NGINX_CORE_PORT};
+    listen       ${NGINX_PORT};
+    listen  [::]:${NGINX_PORT};
     server_name  localhost;
 
     location / {
-        sub_filter          ${NGINX_CORE_PROXY} ${NGINX_CORE_FILTER};
-        sub_filter_types    ${NGINX_CORE_FILTER_TYPES};
+        sub_filter          ${NGINX_PROXY} ${NGINX_FILTER};
+        sub_filter_types    ${NGINX_FILTER_TYPES};
         sub_filter_once     off;
 
-        proxy_pass          https://${NGINX_CORE_PROXY};
+        proxy_pass          https://${NGINX_PROXY};
         proxy_set_header    Accept-Encoding "";
     }
 

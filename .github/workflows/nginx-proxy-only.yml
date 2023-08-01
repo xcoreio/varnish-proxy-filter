@@ -1,0 +1,37 @@
+name: Build Nginx Proxy Only Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      build-tag:
+        description: Release Tag
+        default: ''
+
+env:
+  IMAGE_RGST: docker.io
+  IMAGE_NAME: nginx-proxy-only
+  IMAGE_TAGS: ${{ github.event.inputs.build-tag }}
+  IMAGE_USER: ${{ secrets.REGISTRY_USER }}
+  IMAGE_PASS: ${{ secrets.REGISTRY_PASS }}
+  IMAGE_FILE: Dockerfile.ProxyOnly
+
+jobs:
+  build:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout
+        with:
+          ref: 'main'
+
+      - uses: mr-smithers-excellent/docker-build-push@v6
+        name: Build & Push Docker Image
+        with:
+          image: coreio/${{ env.IMAGE_NAME }}
+          registry: ${{ env.IMAGE_RGST }}
+          dockerfile: ${{ env.IMAGE_FILE }}
+          username: ${{ env.IMAGE_USER }}
+          password: ${{ env.IMAGE_PASS }}
+          platform: linux/amd64
+          tags: ${{ env.IMAGE_TAGS }}, latest

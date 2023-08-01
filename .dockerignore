@@ -1,0 +1,7 @@
+.*
+!10-listen-on-ipv6-by-default.sh
+!20-envsubst-on-templates.sh
+!30-tune-worker-processes.sh
+!docker-entrypoint.sh
+!proxy-filter.conf.template
+!proxy-only.conf.template
